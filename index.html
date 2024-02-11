@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Bubble Website</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffc0cb; /* Pink background */
+            overflow: hidden;
+        }
+
+        .white-bubble {
+            background-color: #fff; /* White background */
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .bubble-container {
+            text-align: center;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .bubble {
+            margin: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffc0cb; /* Pink background */
+            color: #000; /* Black text color */
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #question-bubble {
+            font-size: 20px; /* Adjust the font size as needed */
+        }
+
+        .bubble-response {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 80%; /* Adjust the maximum width as needed */
+            max-height: 80vh; /* Adjust the maximum height as needed */
+        }
+
+        .modal-content {
+            max-width: 100%; /* Make sure images fit the modal */
+            max-height: 100%; /* Make sure images fit the modal */
+        }
+
+        .modal-image {
+            max-height: 70vh; /* Adjust the maximum height for the images */
+            max-width: 100%; /* Ensure images fit the modal width */
+            margin: auto;
+            display: block;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: red;
+            font-size: 20px; /* Adjust the font size as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="white-bubble">
+        <div class="bubble-container">
+            <div id="question-bubble">
+                Малце заглави а? :D Сигурно ли сакаш помош?
+            </div>
+            <div class="bubble-response" id="responses-container">
+                <div class="bubble" id="yes-bubble">
+                    Да!
+                </div>
+                <div class="bubble" id="no-bubble">
+                    Не, ќе пробам уште еднаш!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="help-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-help">&times;</span>
+            <!-- Replace with your image path -->
+            <img src="malapomosh.jpg" alt="Мала помош" class="modal-image">
+        </div>
+    </div>
+
+    <div class="modal" id="big-help-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-big-help">&times;</span>
+            <!-- Replace with your image path -->
+            <img src="golemapomosh.jpg" alt="Голема помош" class="modal-image">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            function removeBubbles() {
+                $('.bubble').remove();
+                $('#question-bubble').remove();
+            }
+
+            function showHelpOptions() {
+                $('<div class="bubble-response" id="big-help-container"> \
+                    <div class="bubble" id="help-bubble">Мала помош</div> \
+                    <div class="bubble" id="big-help-bubble">Голема помош</div> \
+                </div>').appendTo('.bubble-container');
+
+                // Updated event listeners for the new bubbles
+                $('#help-bubble').on('click', function () {
+                    $('#help-modal').show();
+                });
+
+                $('#big-help-bubble').on('click', function () {
+                    $('#big-help-modal').show();
+                });
+            }
+
+            $('#yes-bubble').on('click', function () {
+                removeBubbles();
+                showHelpOptions();
+                // Remove previous event listeners
+                $('#yes-bubble').off('click');
+                $('#no-bubble').off('click');
+            });
+
+            $('#no-bubble').on('click', function () {
+                removeBubbles();
+                $('<div class="bubble" id="easy-bubble">Со лесно! :D</div>').appendTo('.bubble-container');
+            });
+
+            // Initial event listeners for buttons
+            $('#close-help').on('click', function () {
+                $('#help-modal').hide();
+            });
+
+            $('#close-big-help').on('click', function () {
+                $('#big-help-modal').hide();
+            });
+        });
+    </script>
+</body>
+</html>
